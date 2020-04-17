@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%- include ('../partials/head') %>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld_iOoUAAAAADYbZ2WESjKfDtgd3kAx2tWA7uxR"></script> 
 </head>
 <body class="container">
 
@@ -11,14 +11,23 @@
 </header>
 
 <main>
-    <div class="jumbotron">
-        <div class="jumbotron text-center">
-            <form action="/subscribe" method="POST">
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email">
-                <input type="submit" value="Submit">
-            </form> 
-        </div>
+    <div class="jumbotron text-center">
+        <form action="/subscribe" method="POST">
+            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="form-group col-md-4">
+                    <label for="email">Email:</label>
+                    <input type="text" class="form-control" id="email" name="email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="form-group col-md-4">
+                    <button type="submit" class="btn btn-success" style="margin-left:38px">Send</button>
+                </div>
+            </div>
+        </form> 
     </div>
 </main>
 
@@ -26,5 +35,13 @@
     <%- include ('../partials/footer') %>
 </footer>
 
+<script>
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6Ld_iOoUAAAAADYbZ2WESjKfDtgd3kAx2tWA7uxR', {action:'subscribe'})
+                  .then(function(token) {
+            document.getElementById('g-recaptcha-response').value = token;
+        });
+    });
+</script>
 </body>
 </html>
