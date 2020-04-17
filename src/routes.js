@@ -16,28 +16,36 @@ router.get('/', (req, res) => {
 });
 
 router.post('/subscribe', [
-    body('email').isEmail().normalizeEmail()
+    body('email').unescape().isEmail().normalizeEmail(),
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log(errors);
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({'responseCode' : 1, 'responseMessage' : 'Input Error'});
     }
 
+    const captchaResponse = req.body['g-recaptcha-response'][0]
+    if (captchaResponse === undefined || captchaResponse === '' || captchaResponse === null) {
+        return res.status(400).json({'responseCode' : 1, 'responseMessage' : 'Please select captcha'});
+    }
+
+    const email = req.body.email;
     const verificationUrl = RECAPTCHA_URL 
-        + "&response=" + req.body['g-recaptcha-response'] 
-        + "&remoteip=" + req.connection.remoteAddress;
-    axios.get(verificationUrl).then((response) => {
-        if (response.data.success) {
-            const email = req.body.email;
-            subscriptionManager.subscribe(email, (err, success) => {
-                return res.redirect('/subscribe-success');
-            });
-        } else {
-            const errors = { 'errors': response.data['error-codes'] };
-            return res.status(400).json(errors);
-        }
-    }); 
+        + '&response=' + captchaResponse 
+        + '&remoteip=' + req.connection.remoteAddress;
+    axios.get(verificationUrl)
+        .then((response) => {
+            if (response.data.success) {
+                subscriptionManager.subscribe(email, (err, success) => {
+                    // always inform success to the user to avoid database enumeration
+                    return res.status(200).json({'responseCode' : 0, 'responseMessage' : 'Success'});
+                });
+            } else {
+                return res.status(400).json({'responseCode' : 1, 'responseMessage' : 'Failed Captcha'});
+            }
+        })
+        .catch((error) => {
+            return res.status(502).json({'responseCode' : 1, 'responseMessage' : 'Connection Error'});
+        }); 
 });
 
 router.get('/subscribe-success', (req, res) => {
@@ -55,11 +63,8 @@ router.get('/unsubscribe', [
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log(errors);
         return res.render('pages/unsubscribeFailed');
     }
-
-    axios.get()
 
     const email = req.query.email;
     const code = req.query.code;
