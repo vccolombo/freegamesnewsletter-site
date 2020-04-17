@@ -1,8 +1,30 @@
-<%- contentFor('body') %>
-<div class="jumbotron text-center">
-    <form action="/subscribe" method="POST">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email">
-        <input type="submit" value="Submit">
-    </form> 
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include ('../partials/head') %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body class="container">
+
+<header>
+    <%- include ('../partials/header') %>
+</header>
+
+<main>
+    <div class="jumbotron">
+        <div class="jumbotron text-center">
+            <form action="/subscribe" method="POST">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email">
+                <input type="submit" value="Submit">
+            </form> 
+        </div>
+    </div>
+</main>
+
+<footer>
+    <%- include ('../partials/footer') %>
+</footer>
+
+</body>
+</html>
