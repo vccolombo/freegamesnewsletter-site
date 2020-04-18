@@ -16,16 +16,24 @@ router.get('/', (req, res) => {
 });
 
 router.post('/subscribe', [
-    body('email').unescape().isEmail().normalizeEmail(),
+    body('email').unescape().normalizeEmail().isEmail(),
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({'responseCode' : 1, 'responseMessage' : 'Input Error'});
+        response = {
+            'responseCode': 1, 
+            'responseMessage': 'Input Error'
+        };
+        return res.status(400).json(response);
     }
 
     const captchaResponse = req.body['g-recaptcha-response'][0]
     if (captchaResponse === undefined || captchaResponse === '' || captchaResponse === null) {
-        return res.status(400).json({'responseCode' : 1, 'responseMessage' : 'Please select captcha'});
+        response = {
+            'responseCode': 1, 
+            'responseMessage': 'Please select captcha'
+        };
+        return res.status(400).json(response);
     }
 
     const email = req.body.email;
@@ -37,14 +45,14 @@ router.post('/subscribe', [
             if (response.data.success) {
                 subscriptionManager.subscribe(email, (err, success) => {
                     // always inform success to the user to avoid database enumeration
-                    return res.status(200).json({'responseCode' : 0, 'responseMessage' : 'Success'});
+                    return res.status(200).json({'responseCode': 0, 'responseMessage': 'Success', 'redirect': '/subscribe-success'});
                 });
             } else {
-                return res.status(400).json({'responseCode' : 1, 'responseMessage' : 'Failed Captcha'});
+                return res.status(400).json({'responseCode': 1, 'responseMessage': 'Failed Captcha'});
             }
         })
         .catch((error) => {
-            return res.status(502).json({'responseCode' : 1, 'responseMessage' : 'Connection Error'});
+            return res.status(502).json({'responseCode': 1, 'responseMessage': 'Connection Error'});
         }); 
 });
 

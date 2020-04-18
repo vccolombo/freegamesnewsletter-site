@@ -3,6 +3,7 @@
 <head>
     <%- include ('../partials/head') %>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/js/home.js"></script>
 </head>
 <body class="container">
 
@@ -12,7 +13,7 @@
 
 <main>
     <div class="jumbotron text-center">
-        <form action="/subscribe" method="POST">
+        <form id="subscription-form" action="/subscribe" method="POST">
             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
             <div class="row">
                 <div class="col-md-4"></div>
