@@ -4,19 +4,55 @@ html{
 
 body{
   position: relative;
-  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
   line-height: 1.5;
   min-height: 100%;
 }
 
-header .navbar{
-  border-radius: 0;
-  margin: 0;
+header .logo{
+  color: #F45E43;
+  font-size: 48px;
+  font-style: italic;
+  text-align: center;
+  text-decoration: underline;
+  padding-top: 20px;
 }
 
 main{
   min-height: 500px;
   padding: 50px 0;
+}
+
+main .slogan{
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  color: #333;
+}
+
+main .text-small{
+  font-size: 18px;
+}
+
+main .text-large{
+  font-size: 48px;
+}
+
+main .subscription-form{
+  width: 100%;
+  padding: 0 100px;
+  text-align: center;
+}
+
+main .email{
+  width: 66%;
+  height: 50px;
+  text-align: center;
+  margin-bottom: -1px;
+}
+
+main .g-recaptcha {
+  display: inline-block;
 }
 
 footer{

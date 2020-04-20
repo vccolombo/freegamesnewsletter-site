@@ -2,6 +2,9 @@ $(document).ready(function() {
     $('#subscription-form').submit(function(event) {
         event.preventDefault();
 
+        $('#email-msg').hide();
+        $("#captcha-unselected-msg").hide();
+
         $.ajax({
             url : $(this).attr("action"),
             type: $(this).attr("method"),
@@ -9,7 +12,13 @@ $(document).ready(function() {
         }).done(function(response) {
             window.location.href = response.redirect;
         }).fail(function(error)  {
-            console.log(error);
+            responseMsg = error.responseJSON.responseMessage;
+            if (responseMsg === "Invalid Email") {
+                $('#email-msg').show();
+            }
+            if (responseMsg === "Please select captcha") {
+                $("#captcha-unselected-msg").show();
+            }
         }); ;
     })
 });

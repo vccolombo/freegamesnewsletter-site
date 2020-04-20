@@ -22,7 +22,7 @@ router.post('/subscribe', [
     if (!errors.isEmpty()) {
         response = {
             'responseCode': 1, 
-            'responseMessage': 'Input Error'
+            'responseMessage': 'Invalid Email'
         };
         return res.status(400).json(response);
     }

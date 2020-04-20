@@ -12,29 +12,39 @@
 </header>
 
 <main>
-    <div class="jumbotron text-center">
-        <form id="subscription-form" action="/subscribe" method="POST">
+    <div>
+        <div style="padding: 0 30px 40px;">
+            <div class="slogan text-large">
+                Never lose a free game again!
+            </div>
+            <div class="slogan text-small">
+                Subscribe now to receive emails when a game is free for a limited time on Steam
+            </div>
+        </div>
+        <form class="subscription-form" id="subscription-form" action="/subscribe" method="POST">
             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="form-group col-md-4">
-                    <label for="email">Email:</label>
-                    <input type="text" class="form-control" id="email" name="email">
+            <div class="form-group">
+                <div>
+                    <input class="email" type="email" class="form-control" id="email-form" name="email" required
+                        placeholder="Enter your email..." autocomplete="off">
+                    <div id="email-msg" style="color:red" hidden>
+                        Invalid Email!
+                    </div>
+                </div>
+            </div>        
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6Lfbn-oUAAAAAABX1zxefZfgcS8WH5uB_AaBjTF4"></div>
+                <div id="captcha-unselected-msg" style="color:red" hidden>
+                    Please confirm you are not a robot!
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="form-group col-md-4">
-                    <div class="g-recaptcha" data-sitekey="6Lfbn-oUAAAAAABX1zxefZfgcS8WH5uB_AaBjTF4"></div>
-                </div>
+            <div class="form-group">
+                <button type="submit" class="btn-lg btn-success">Subscribe</button>
             </div>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="form-group col-md-4">
-                    <button type="submit" class="btn btn-success" style="margin-left:38px">Subscribe</button>
-                </div>
+            <div class="text-muted" style="padding-bottom: 70px;">
+                No spam, easy to unsubscribe
             </div>
-        </form> 
+        </form>
     </div>
 </main>
 
