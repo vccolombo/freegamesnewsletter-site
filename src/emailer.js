@@ -12,7 +12,7 @@ const SENDER_PASSWORD = process.env.FREEGAMESNEWSLETTER_PASSWORD;
 const SUBJECT = 'Confirm your subscription';
 
 function generateHTMLmessage(email, callback) {
-    const confirmUrl = 'https://www.freegamenewsletter.tech/confirmEmail?email=' + email + '&code=' + hash(email);
+    const confirmUrl = 'https://www.freegamesnewsletter.tech/confirmEmail?email=' + email + '&code=' + hash(email);
 
     ejs.renderFile('src/email_templates/confirmation.html', {confirmUrl}, {}, function(err, html){
         callback(err, html);
