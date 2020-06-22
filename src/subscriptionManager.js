@@ -1,23 +1,23 @@
-const crypto = require('crypto');
-
 const db = require('./db');
+const hash = require('./hash').hash;
+const emailer = require('./emailer');
 
-require('dotenv').config();
-const SECRET = process.env.NEWSLETTER_SECRET;
+const sendConfirmationEmail = (email, callback) => {
+    emailer.sendConfirmationEmail(email);
 
-const hash = (string) => {
-    const hmac = crypto.createHmac('sha256', SECRET);
-    const hashedString = hmac.update(string).digest('hex');
+    return callback(null, 'Success');
+};
 
-    return hashedString;
-}
-
-const subscribe = (email, callback) => {
+const subscribe = (email, code, callback) => {
     const emailHashed = hash(email);
 
-    doSubscription(email, emailHashed, (err, success) => {
-        return callback(err, success);
-    });
+    if (emailHashed === code) {
+        doSubscription(email, emailHashed, (err, success) => {
+            return callback(err, success);
+        });
+    } else {
+        return callback('NonMatchingHashes', null);
+    }
 };
 
 const doSubscription = (email, unsubscribeCode, callback) => {
@@ -49,4 +49,4 @@ const doUnsubscription = (email, callback) => {
     });
 };
 
-module.exports = {subscribe, unsubscribe};
+module.exports = {sendConfirmationEmail, subscribe, unsubscribe};

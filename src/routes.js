@@ -43,9 +43,8 @@ router.post('/subscribe', [
     axios.get(verificationUrl)
         .then((response) => {
             if (response.data.success) {
-                subscriptionManager.subscribe(email, (err, success) => {
-                    // always inform success to the user to avoid database enumeration
-                    return res.status(200).json({'responseCode': 0, 'responseMessage': 'Success', 'redirect': '/subscribe-success'});
+                subscriptionManager.sendConfirmationEmail(email, (err, success) => {
+                    return res.status(200).json({'responseCode': 0, 'responseMessage': 'Success', 'redirect': '/checkYourEmail'});
                 });
             } else {
                 return res.status(400).json({'responseCode': 1, 'responseMessage': 'Failed Captcha'});
@@ -56,7 +55,36 @@ router.post('/subscribe', [
         }); 
 });
 
-router.get('/subscribe-success', (req, res) => {
+router.get('/checkYourEmail', (req, res) => {
+    res.render('pages/checkYourEmail');
+});
+
+router.get('/confirmEmail', [
+    check('email').unescape().isEmail().normalizeEmail(),
+    check('code')
+        .unescape()
+        .trim()
+        .not().isEmpty()
+        .isAlphanumeric()
+        .isHash('sha256')
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('pages/unsubscribeFailed');
+    }
+
+    const email = req.query.email;
+    const code = req.query.code;
+    subscriptionManager.subscribe(email, code, (err, success) => {
+        if (err) {
+            // TODO
+        }
+
+        return res.render('pages/subscribeSuccess');
+    }); 
+});
+
+router.get('/subscribeSuccess', (req, res) => {
     res.render('pages/subscribeSuccess');
 });
 
