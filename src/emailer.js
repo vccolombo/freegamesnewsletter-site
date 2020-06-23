@@ -20,6 +20,8 @@ function generateHTMLmessage(email, callback) {
 }
 
 async function sendConfirmationEmail(email) {
+    console.log('Sending confirmation email to:' + email);
+
     let transporter = nodemailer.createTransport({
       host: SMTP_HOST,
       port: SMTP_PORT,
@@ -30,21 +32,24 @@ async function sendConfirmationEmail(email) {
       },
     });
 
-    // verify connection configuration
     transporter.verify(function(error, success) {
         if (error) {
             console.log(error);
         } else {
-            console.log('Server is ready to take our messages');
+            console.log('Ready to send messages via SMTP');
             
             generateHTMLmessage(email, async function(error, html) {
-                let info = await transporter.sendMail({
-                    from: SENDER_EMAIL,
-                    to: email,
-                    subject: SUBJECT,
-                    html: html,
-                });
-                console.log('Message sent: %s', info);
+                if (error) {
+                    console.log('Failed to send email to %s: %s', email, error);
+                } else {
+                    let info = await transporter.sendMail({
+                        from: SENDER_EMAIL,
+                        to: email,
+                        subject: SUBJECT,
+                        html: html,
+                    });
+                    console.log('Message sent to %s: %s', email, info);
+                }
             });
         }
     });
