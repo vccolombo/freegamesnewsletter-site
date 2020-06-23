@@ -17,7 +17,7 @@ insertSubscriber = (subscriber, callback) => {
     findSubscriber(subscriber.email, (err, docs) => {
         if (err) {
             return callback(err, null)
-        } else if (docs.length) {
+        } else if (docs) {
             return callback('SubscriberAlreadyExists', null);
         }
 
@@ -43,7 +43,7 @@ removeSubscriber = (subscriberEmail, callback) => {
 };
 
 findSubscriber = (subscriberEmail, callback) => {
-    Subscribers.find({'email': subscriberEmail}, (err, docs) => {
+    Subscribers.findOne({'email': subscriberEmail}, (err, docs) => {
         if (err) {
             return callback(err, null);
         } 
@@ -52,4 +52,4 @@ findSubscriber = (subscriberEmail, callback) => {
     });
 };
 
-module.exports = {insertSubscriber, removeSubscriber}
+module.exports = {insertSubscriber, removeSubscriber, findSubscriber};
