@@ -112,6 +112,7 @@ router.get('/unsubscribe', [
             return res.render('pages/unsubscribeFailed');
         }
 
+        console.log(email + ' has unsubscribed!');
         return res.render('pages/unsubscribeSuccess');
     }); 
 });
