@@ -79,7 +79,6 @@ router.get('/confirmEmail', [
     subscriptionManager.subscribe(email, code, (err, success) => {
         if (err) {
             // TODO
-            console.log(err);
         }
 
         return res.render('pages/subscribeSuccess');
@@ -108,7 +107,6 @@ router.get('/unsubscribe', [
     const code = req.query.code;
     subscriptionManager.unsubscribe(email, code, (err, success) => {
         if (err) {
-            console.log(err);
             return res.render('pages/unsubscribeFailed');
         }
 

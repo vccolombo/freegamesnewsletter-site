@@ -13,43 +13,22 @@ const subscriberSchema = new mongoose.Schema({
 });
 const Subscribers = mongoose.model('Subscriber', subscriberSchema);
 
-insertSubscriber = (subscriber, callback) => {
-    findSubscriber(subscriber.email, (err, docs) => {
-        if (err) {
-            return callback(err, null)
-        } else if (docs) {
-            return callback('SubscriberAlreadyExists', null);
-        }
-
-        const insert = new Subscribers(subscriber);
-        insert.save();
-
-        return callback(null, 'SubscriberAdded');
-    });
+async function insertSubscriber(subscriber) {
+    let subscriberWithThisEmail = await findSubscriber(subscriber.email);
+    if (subscriberWithThisEmail) {
+        throw "subscriberAlreadyExists";
+    }
+    
+    let insert = new Subscribers(subscriber);
+    return insert.save();
 };
 
-removeSubscriber = (subscriberEmail, callback) => {
-    Subscribers.findOneAndDelete({
-        'email': subscriberEmail
-    }, (err, success) => {
-        if (err) {
-            return callback('CouldNotDeleteSubscriber', null);
-        } else if (success) {
-            return callback(null, 'SubscriberRemoved');
-        } else {
-            return callback('SubscriberNotFound', null);
-        } 
-    });
+async function findSubscriber(subscriberEmail) {
+    return Subscribers.findOne({'email': subscriberEmail});
 };
 
-findSubscriber = (subscriberEmail, callback) => {
-    Subscribers.findOne({'email': subscriberEmail}, (err, docs) => {
-        if (err) {
-            return callback(err, null);
-        } 
-
-        return callback(null, docs);
-    });
+async function removeSubscriber(subscriberEmail) {
+    return Subscribers.findOneAndDelete({'email': subscriberEmail});
 };
 
 module.exports = {insertSubscriber, removeSubscriber, findSubscriber};

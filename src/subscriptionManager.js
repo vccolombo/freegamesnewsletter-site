@@ -2,22 +2,26 @@ const db = require('./db');
 const hash = require('./hash').hash;
 const emailer = require('./emailer');
 
-const sendConfirmationEmail = (email, callback) => {
+function sendConfirmationEmail(email, callback) {
     emailer.sendConfirmationEmail(email);
 
     return callback(null, 'Success');
 };
 
-const subscribe = (email, code, callback) => {
+function subscribe(email, code, callback) {
     const emailHashed = hash(email);
-    if (emailHashed === code) {
-        const unsubscribeCode = hash(email + generateRandomString(16));
-        doSubscription(email, unsubscribeCode, (err, success) => {
-            return callback(err, success);
-        });
-    } else {
+    if (emailHashed !== code) {
         return callback('NonMatchingHashes', null);
     }
+
+    const unsubscribeCode = hash(email + generateRandomString(16));
+    doSubscription(email, unsubscribeCode)
+        .then((subscriber) => {
+            return callback(null, subscriber);
+        })
+        .catch((err) => {
+            return callback(err, null);
+        });
 };
 
 function generateRandomString(length) {
@@ -30,40 +34,38 @@ function generateRandomString(length) {
     return result;
 };
 
-const doSubscription = (email, unsubscribeCode, callback) => {
+function doSubscription(email, unsubscribeCode) {
     subscriber = {
         'email': email,
         'unsubscribeCode': unsubscribeCode
     };
 
-    db.insertSubscriber(subscriber, (err, success) => {
-        return callback(err, success);
-    });
+    return db.insertSubscriber(subscriber);
 };
 
-const unsubscribe = (email, unsubscribeCode, callback) => {
-    db.findSubscriber(email, (err, subscriber) => {
-        if (err) {
-            return callback(err, null);
-        } else if (!subscriber) {
+function unsubscribe(email, unsubscribeCode, callback) {
+    db.findSubscriber(email).then((subscriber) => {
+        if (!subscriber) {
             return callback("EmailNotFound", null);
         }
-
+    
         const unsubscribeCodeFromDB = subscriber.unsubscribeCode;
-        if (unsubscribeCodeFromDB === unsubscribeCode) {
-            doUnsubscription(email, (err, success) => {
-                return callback(err, success);
-            });
-        } else {
+        if (unsubscribeCodeFromDB !== unsubscribeCode) {
             return callback('NonMatchingHashes', null);
-        }
-    });
+        } 
+
+        doUnsubscription(email)
+            .then((subscriber) => {
+                return callback(null, subscriber);
+            })
+            .catch((err) => {
+                return callback(err, null);
+            });
+    }); 
 };
 
-const doUnsubscription = (email, callback) => {
-    db.removeSubscriber(email, (err, success) => {
-        return callback(err, success);
-    });
+function doUnsubscription(email) {
+    return db.removeSubscriber(email);
 };
 
 module.exports = {sendConfirmationEmail, subscribe, unsubscribe};
