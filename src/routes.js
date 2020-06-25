@@ -71,14 +71,14 @@ router.get('/confirmEmail', [
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.render('pages/unsubscribeFailed');
+        return res.render('pages/subscribeFailed');
     }
 
     const email = req.query.email;
     const code = req.query.code;
     subscriptionManager.subscribe(email, code, (err, success) => {
         if (err) {
-            // TODO
+            return res.render('pages/subscribeFailed');
         }
 
         return res.render('pages/subscribeSuccess');
