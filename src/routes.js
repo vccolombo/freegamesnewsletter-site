@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/subscribe', [
-    body('email').unescape().normalizeEmail().isEmail(),
+    body('email').unescape().isEmail().normalizeEmail(),
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -71,6 +71,7 @@ router.get('/confirmEmail', [
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log(errors);
         return res.render('pages/subscribeFailed');
     }
 
@@ -78,6 +79,7 @@ router.get('/confirmEmail', [
     const code = req.query.code;
     subscriptionManager.subscribe(email, code, (err, success) => {
         if (err) {
+            console.log(err);
             return res.render('pages/subscribeFailed');
         }
 
@@ -107,6 +109,7 @@ router.get('/unsubscribe', [
     const code = req.query.code;
     subscriptionManager.unsubscribe(email, code, (err, success) => {
         if (err) {
+            console.log(err);
             return res.render('pages/unsubscribeFailed');
         }
 
