@@ -25,7 +25,7 @@ async function insertSubscriber(subscriber) {
     let subscriberWithThisEmail = await findSubscriber(subscriber.email);
     if (subscriberWithThisEmail) {
         console.log("Trying to insert duplicate subscriber: ", subscriberWithThisEmail);
-        throw "subscriberAlreadyExists";
+        return subscriberWithThisEmail;
     }
     
     let insert = new Subscribers(subscriber);
