@@ -24,6 +24,7 @@ const Subscribers = mongoose.model('Subscriber', subscriberSchema);
 async function insertSubscriber(subscriber) {
     let subscriberWithThisEmail = await findSubscriber(subscriber.email);
     if (subscriberWithThisEmail) {
+        console.log("Trying to insert duplicate subscriber: ", subscriberWithThisEmail);
         throw "subscriberAlreadyExists";
     }
     
