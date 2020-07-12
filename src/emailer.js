@@ -8,7 +8,7 @@ const SMTP_HOST = 'smtp.gmail.com';
 const SMTP_PORT = 465;
 
 const SENDER_EMAIL = 'freegamesnewsletter@gmail.com';
-const SENDER_PASSWORD = process.env.FREEGAMESNEWSLETTER_PASSWORD;
+const SENDER_PASSWORD = process.env.EMAIL_PASS;
 
 const SUBJECT = 'Confirm your subscription';
 
