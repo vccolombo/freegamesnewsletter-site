@@ -12,16 +12,16 @@ function start() {
     };
     amqp.connect(CONN_URL + "?heartbeat=60", opt, function(err, conn) {
         if (err) {
-            console.error("[AMQP]", err.message);
+            console.log("[AMQP]", err.message);
             return setTimeout(start, 1000);
         }
         conn.on("error", function(err) {
             if (err.message !== "Connection closing") {
-                console.error("[AMQP] conn error", err.message);
+                console.log("[AMQP] conn error", err.message);
             }
         });
         conn.on("close", function() {
-            console.error("[AMQP] reconnecting");
+            console.log("[AMQP] reconnecting");
             return setTimeout(start, 1000);
         });
         console.log("[AMQP] connected");
@@ -38,7 +38,7 @@ function startPublisher() {
         }
         
         ch.on("error", function(err) {
-            console.error("[AMQP] channel error", err.message);
+            console.log("[AMQP] channel error", err.message);
         });
         ch.on("close", function() {
             console.log("[AMQP] channel closed");
@@ -53,7 +53,7 @@ function publish(exchange, routingKey, content) {
     pubChannel.publish(exchange, routingKey, msg, { persistent: true }, 
         function(err, ok) {
             if (err) {
-                console.error("[AMQP] publish", err);
+                return console.log("[AMQP] publish", err);
             }
 
             console.log("[AMQP] publish", ok);
