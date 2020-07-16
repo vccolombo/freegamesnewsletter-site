@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
 const routes = require('./routes');
+const broker = require('./broker');
+
+broker.start();
 
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
