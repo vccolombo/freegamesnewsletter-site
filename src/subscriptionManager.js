@@ -1,9 +1,9 @@
 const db = require('./db');
 const hash = require('./hash').hash;
-const emailer = require('./emailer');
+const mailer = require('./mailer');
 
 function sendConfirmationEmail(email, callback) {
-    emailer.sendConfirmationEmail(email);
+    mailer.sendConfirmationEmail(email);
 
     return callback(null, 'Success');
 };
