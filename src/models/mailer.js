@@ -23,7 +23,7 @@ async function sendConfirmationEmail(email) {
         };
 
         broker.publish('', 'emails', JSON.stringify(msg));
-    });    
+    });
 };
 
 async function generateHTMLmessage(email) {
