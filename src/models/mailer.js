@@ -1,20 +1,20 @@
 const ejs = require('ejs');
 
-const hash = require('./hash').hash;
-const db = require('./db');
+const hash = require('../utils/hashUtils').hash;
 const broker = require('./broker');
 
 const SITE_URL = process.env.SITE_URL;
 const SUBJECT = 'Confirm your subscription';
 
+const Subscribers = require('./subscribers');
+
 async function sendConfirmationEmail(email) {
-    let subscriberWithThisEmail = await db.findSubscriber(email);
-    if (subscriberWithThisEmail) {
-        return console.log(email + ' already subscribed! Ignoring...');
+    const subscriberExists = await Subscribers.exists({'email': email});
+    if (subscriberExists) {
+        return console.log(email, 'already subscribed! Ignoring...');
     }
 
-    console.log('Sending confirmation email to:' + email);
-
+    console.log('Sending confirmation email to:', email);
     generateHTMLmessage(email).then((html) => {
         msg = {
             'email': email,
