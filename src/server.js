@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
-const routes = require('./routes');
-const broker = require('./broker');
+require('./models/broker');
+require('./db/mongoose');
 
-broker.start();
+const routes = require('./routes/routes');
 
 require('dotenv').config();
 const PORT = process.env.PORT || 3000;
