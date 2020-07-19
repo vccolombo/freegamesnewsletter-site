@@ -29,7 +29,7 @@ async function sendConfirmationEmail(email) {
 async function generateHTMLmessage(email) {
     const confirmUrl = SITE_URL + '/confirmEmail?email=' + email + '&code=' + hash(email);
 
-    return await ejs.renderFile('src/email_templates/confirmation.html', {confirmUrl}, {async: true});
+    return await ejs.renderFile('email_templates/confirmation.html', {confirmUrl}, {async: true});
 };
 
 module.exports = {sendConfirmationEmail};
