@@ -6,7 +6,7 @@ const broker = require('./broker');
 const SITE_URL = process.env.SITE_URL;
 const SUBJECT = 'Confirm your subscription';
 
-const Subscribers = require('./subscribers');
+const Subscribers = require('../models/subscribers');
 
 async function sendConfirmationEmail(email) {
     const subscriberExists = await Subscribers.exists({'email': email});

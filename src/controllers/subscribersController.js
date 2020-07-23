@@ -1,6 +1,6 @@
 const hash = require('../utils/hashUtils').hash;
 const generateRandomString = require('../utils/stringUtils').generateRandomString;
-const mailer = require('../models/mailer');
+const mailer = require('../services/mailer');
 const Subscribers = require('../models/subscribers');
 
 function sendConfirmationEmail(email, callback) {
