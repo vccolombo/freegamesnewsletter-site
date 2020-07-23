@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
-require('./models/broker');
-require('./db/mongoose');
+require('./services/broker');
+require('./services/mongoose');
 
 const routes = require('./routes/routes');
 
