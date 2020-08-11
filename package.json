@@ -11,7 +11,11 @@
   "author": "Victor Colombo",
   "license": "GPL-3.0",
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.5"
   },
   "dependencies": {
     "amqplib": "^0.6.0",

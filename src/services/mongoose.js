@@ -6,10 +6,10 @@ const MONGODB_USER = process.env.MONGODB_USER;
 const MONGODB_PASS = process.env.MONGODB_PASS;
 
 mongoose.connect(DB_CONN, {
-    useNewUrlParser: true, 
+    useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    "auth": { "authSource": "admin" },
-    "user": MONGODB_USER,
-    "pass": MONGODB_PASS,
+    auth: { authSource: 'admin' },
+    user: MONGODB_USER,
+    pass: MONGODB_PASS,
 });

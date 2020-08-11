@@ -1,19 +1,22 @@
 const mongoose = require('mongoose');
 
-const subscriberSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true
+const subscriberSchema = new mongoose.Schema(
+    {
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        unsubscribeCode: {
+            type: String,
+            required: true,
+        },
     },
-    unsubscribeCode: {
-        type: String,
-        required: true
+    {
+        versionKey: false,
     }
-}, {
-    versionKey: false
-});
+);
 
 const Subscribers = mongoose.model('Subscriber', subscriberSchema);
 
-module.exports = Subscribers
+module.exports = Subscribers;

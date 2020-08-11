@@ -8,6 +8,6 @@ const hash = (string) => {
     const hashedString = hmac.update(string).digest('hex');
 
     return hashedString;
-}
+};
 
-module.exports = {hash};
+module.exports = { hash };
