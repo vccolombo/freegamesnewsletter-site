@@ -1,6 +1,6 @@
 {
   "name": "freegamesnewsletter-site",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "",
   "main": "src/server.js",
   "scripts": {
@@ -11,11 +11,11 @@
   "author": "Victor Colombo",
   "license": "GPL-3.0",
   "devDependencies": {
-    "eslint": "^7.8.1",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "nodemon": "^2.0.4",
-    "prettier": "^2.1.1"
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1"
   },
   "dependencies": {
     "amqplib": "^0.6.0",
@@ -25,7 +25,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "helmet": "^3.23.3",
-    "mongoose": "^5.10.3",
-    "validator": "^13.1.1"
+    "mongoose": "^5.11.9",
+    "validator": "^13.5.2"
   }
 }
