@@ -11,21 +11,21 @@
   "author": "Victor Colombo",
   "license": "GPL-3.0",
   "devDependencies": {
-    "eslint": "^7.16.0",
+    "eslint": "^7.26.0",
     "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.6",
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "amqplib": "^0.6.0",
+    "amqplib": "^0.7.1",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "helmet": "^3.23.3",
-    "mongoose": "^5.11.9",
-    "validator": "^13.5.2"
+    "mongoose": "^5.12.7",
+    "validator": "^13.6.0"
   }
 }
